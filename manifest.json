@@ -1,0 +1,41 @@
+{
+    "name": "Sketchfab for Free",
+    "description": "Filters Free Models on Sketchfab !",
+    "version": "0.0.1",
+    "manifest_version": 3,
+    "permissions": [
+        "storage",
+        "activeTab",
+        "scripting"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }, 
+    "content_scripts": [
+        {
+            "matches": ["https://sketchfab.com/*"],
+            "js": ["filter.js"],
+            "run_at": "document_idle",
+            "all_frames": false
+        }
+    ],
+    "action": {
+        "default_title": "Sketchfab for Free",
+        "default_icon": {
+            "16": "images/icon16.png",
+            "32": "images/icon32.png",
+            "150": "images/icon150.png",
+            "180": "images/icon180.png",
+            "192": "images/icon192.png",
+            "512": "images/icon512.png"
+        }
+    },
+    "icons": {
+        "16": "images/icon16.png",
+        "32": "images/icon32.png",
+        "150": "images/icon150.png",
+        "180": "images/icon180.png",
+        "192": "images/icon192.png",
+        "512": "images/icon512.png"
+    }
+}
