@@ -1,13 +1,23 @@
 const handleSwitch = (state) => {
-  chrome.storage.local.set({ state });
+  chrome.storage.sync.set({ state });
   chrome.action.setBadgeText({ text: state });
   chrome.action.setBadgeBackgroundColor({
     color: state === 'ON' ? '#90EE90' : '#FF0000',
   });
 };
 
-chrome.runtime.onInstalled.addListener(() => {
+chrome.runtime.onInstalled.addListener((object) => {
+  const externalUrl = 'https://sketchfab.com/';
+  if (object.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+    chrome.tabs.create({ url: externalUrl });
+  }
   handleSwitch('ON');
+});
+
+chrome.runtime.onStartup.addListener(() => {
+  chrome.storage.sync.get(['state']).then(({ state }) => {
+    handleSwitch(state);
+  });
 });
 
 chrome.action.onClicked.addListener(async (tab) => {
@@ -15,7 +25,7 @@ chrome.action.onClicked.addListener(async (tab) => {
     tab.url.startsWith('https://sketchfab.com') ||
     tab.url.startsWith('http://sketchfab.com')
   ) {
-    chrome.storage.local.get(['state']).then(async ({ state }) => {
+    chrome.storage.sync.get(['state']).then(async ({ state }) => {
       if (state === 'ON') {
         chrome.tabs
           .sendMessage(tab.id, {

@@ -32,7 +32,7 @@ const handleRequest = (state) => {
   }
 };
 
-chrome.storage.local.get(['state']).then(({ state }) => {
+chrome.storage.sync.get(['state']).then(({ state }) => {
   handleRequest(state);
 });
 
